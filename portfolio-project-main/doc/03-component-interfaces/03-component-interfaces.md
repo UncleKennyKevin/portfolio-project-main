@@ -1,8 +1,8 @@
 # Portfolio Part 3: Component Interfaces
 
-- **Name**: <!-- TODO: fill with first and last name (e.g., Brutus Buckeye) and delete this comment -->
-- **Dot Number**: <!-- TODO: fill with OSU dot number (e.g., buckeye.17) and delete this comment -->
-- **Due Date**: <!-- TODO: fill out with due date and time (e.g., 10/17 @ 3:10 PM EST) and delete this comment -->
+- **Name**: Kevin Roback
+- **Dot Number**: roback.12
+- **Due Date**: 10/21
 
 ## Assignment Overview
 
@@ -123,7 +123,7 @@ hierarchy diagram using whatever tools you would like. Then, include a picture
 of it in this folder. You may also embed it just below using markdown syntax
 (i.e., `[ALT TEXT](path/to/file)`).
 
-<!-- TODO: make a diagram of your component hierarchy then delete this comment -->
+c:\Users\TheRe\Downloads\Screenshot 2024-10-21 164653.png
 
 To start making your interfaces, make a branch off of main in your new repo
 called something like `interfaces`. There are many ways to do this, but my
@@ -187,11 +187,12 @@ the following form: YYYY.0M.0D.
 
 ### Added
 
-- Designed kernel and enhanced interfaces for <!-- insert name of component here --> component
+- Designed kernel and enhanced interfaces for ASCIIBattle component
 
 ### Updated
 
-- Changed design to include ...
+- Changed design to scope down and focus on a simple turn-based combat system using ASCII to model the enemies, dice rolls, and sword attack.
+Added javadocs for Kernel and extended methods.
 
 ```
 
@@ -255,8 +256,6 @@ better for future students.
 
 <!-- TODO: follow the link to share your feedback then delete this comment -->
 
-[markdown-to-pdf-guide]: https://therenegadecoder.com/blog/how-to-convert-markdown-to-a-pdf-3-quick-solutions/
-[pottery-fails]: https://www.youtube.com/shorts/Kqb9l113F_0?feature=share
 [natural-number-kernel]: https://web.cse.ohio-state.edu/software/common/doc/src-html/components/naturalnumber/NaturalNumberKernel.html
 [natural-number]: https://web.cse.ohio-state.edu/software/common/doc/src-html/components/naturalnumber/NaturalNumber.html
 [survey]: https://forms.gle/dumXHo6A4Enucdkq9
