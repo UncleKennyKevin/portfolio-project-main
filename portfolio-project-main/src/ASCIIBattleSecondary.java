@@ -1,10 +1,8 @@
-import components.sequence.Sequence;
-import components.sequence.Sequence1L;
 import components.simplereader.SimpleReader;
 import components.simplewriter.SimpleWriter;
 
 /**
- * Layered implementations of secondary methods for {@code DiscGolfScorecard}.
+ * Layered implementations of secondary methods for {@code ASCIIBattle}.
  */
 
 public abstract class ASCIIBattleSecondary implements ASCIIBattle {
@@ -28,6 +26,32 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
 
     }
 
+    // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ASCIIBattle)) {
+            return false;
+        }
+
+        boolean returnVal = true;
+        ASCIIBattle example = (ASCIIBattle) obj;
+        if ((this.currentHealth() != example.currentHealth())
+                || (this.currentEnergy() != example.currentEnergy())
+                || (this.currentEnemyHealth() != example.currentEnemyHealth())
+                || (this.currentEnemyEnergy() != example
+                        .currentEnemyEnergy())) {
+            returnVal = false;
+        }
+
+        return returnVal;
+    }
+
     //will complete equals method as kernel implementation is completed
 
     /*
@@ -36,56 +60,49 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
-    public void roundPlay(Sequence<Integer> player, int numBattles,
-            SimpleReader in, SimpleWriter out) {
+    public void roundPlay(String playerName, int numBattles, SimpleReader in,
+            SimpleWriter out) {
 
-        final int enemyStartingHealth = 10;
-        final int enemyStartingEnergy = 10;
-
-        Sequence<Integer> enemy = new Sequence1L<Integer>();
-        int enemyHealthMax = enemyStartingHealth;
-        int enemyEnergyMax = enemyStartingEnergy;
         int roundsTaken = 0;
         int playerExperience = 0;
+        String playerChoice = "";
+
+        final int enemyHealthMax = 10;
+        final int enemyEnergyMax = 5;
 
         boolean roundCheck = true;
 
         for (int i = 0; i < numBattles; i++) {
+            this.updateEnemy(enemyHealthMax, enemyEnergyMax);
+
             while (roundCheck) {
-                this.updateEnemy(enemy, enemyHealthMax, enemyEnergyMax);
-                this.attackOrDefend(player, enemy, in, out);
-                this.enemyTurn(enemy, player, out);
-                roundCheck = this.checkAlive(player, enemy);
+
+                playerChoice = this.attackOrDefend(playerName, in, out);
+                this.enemyTurn(playerName, playerChoice, out);
+                roundCheck = this.checkAlive();
+
                 roundsTaken++;
             }
-            playerExperience += this.battleOver(i, roundsTaken, out);
-        }
 
+            playerExperience += this.battleOver(playerExperience, i,
+                    roundsTaken, out);
+        }
     }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
-    public void playerDead(Sequence<Integer> player, int roundsPlayed,
+    public void playerDead(String playerName, int numBattles,
             int totalDamageDealt, SimpleReader in, SimpleWriter out) {
+        //NEEDS MORE WORK
         int chanceToRevive = this.diceRoll(out);
         if (chanceToRevive > 5) {
-            this.updatePlayer(player, 1, 1);
+            this.editCharacter(1, 1);
         } else {
 
-            this.endMessage(roundsPlayed, totalDamageDealt, in, out);
+            this.endMessage(numBattles, totalDamageDealt, in, out);
 
-            /*
-             * Note To Self: End message method will look like this
-             * out.println("GAME OVER"); out.println("You survived " +
-             * roundsPlayed + " rounds"); out.println("Overall, you dealt " +
-             * totalDamageDealt + " points of damage");
-             * out.println("Play again? y/n"); String playerResponse =
-             * in.nextLine();
-             * 
-             * if(playerResponse.equals("y")){ gameStart(); } else{
-             * out.println("Goodbye!!"); }
-             */
         }
 
     }
+
 }

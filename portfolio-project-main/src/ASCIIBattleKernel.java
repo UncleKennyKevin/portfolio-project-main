@@ -1,4 +1,3 @@
-import components.sequence.Sequence;
 import components.simplereader.SimpleReader;
 import components.simplewriter.SimpleWriter;
 import components.standard.Standard;
@@ -25,25 +24,21 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
          * Then using that info, either rolls to see strength of attack and
          * lands on enemy, or temporarily increases player defense. Attacks
          * deplete all energy, so players may decide to defend in order to save
-         * up for a devistating attack
+         * up for a devastating attack
          *
-         * @param player
-         *                player information as to decide whether or not
-         *                strongAttack can be used and to deplete energy levels
-         *                after an attack
-         * @param enemy
-         *                reduce enemy health if attack lands
-         *
+         * @param playerName
+         *                user given name for the player
          * @param in
          *                take in user information
          * @param out
          *                display information to user
+         * @return playerChoice
          * @ensures enemyHealth -= playerAttack and playerEnergy = 0 ||
          *          playerDefense++
          *
          */
-        void attackOrDefend(Sequence<Integer> player, Sequence<Integer> enemy,
-                        SimpleReader in, SimpleWriter out);
+        String attackOrDefend(String playerName, SimpleReader in,
+                        SimpleWriter out);
 
         /**
          * Similar to attackOrDefend, but from the perspective of an AI enemy.
@@ -51,12 +46,10 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
          * level of enemy energy. The decision to save for a strong attack will
          * be random.
          *
-         * @param enemy
-         *                enemy information as to decide whether or not
-         *                strongAttack can be used and to deplete energy levels
-         *                after an attack
-         * @param player
-         *                reduce player health if attack lands
+         * @param playerName
+         *                user given name to be processed.
+         * @param playerChoice
+         *                user given choice to be processed.
          * @param out
          *                display information to user
          * @returns true if attack, false if defend
@@ -64,52 +57,32 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
          *          enemyDefense++
          *
          */
-        void enemyTurn(Sequence<Integer> enemy, Sequence<Integer> player,
+        void enemyTurn(String playerName, String playerChoice,
                         SimpleWriter out);
 
         /**
          * At the start of each battle, creates a new enemy with a new set of
          * health and energy values.
          *
-         * @param enemy
-         *                the sequence to be set up or re-set up
          * @param healthMax
          *                health that increases by 1 or 2 by each new battle
          *                fought
          * @param energyMax
          *                energy that gradually increases every few battles
          *                fought
-         * @return enemy sequence with updated information
          * @ensures enemy = #enemy + newHealthMax and newEnergyMax
          *
          */
 
-        Sequence<Integer> updateEnemy(Sequence<Integer> enemy, int healthMax,
-                        int energyMax);
-
-        /**
-         * At the start of each battle, creates a new enemy with a new set of
-         * health and energy values.
-         *
-         * @param player
-         *                the sequence to be updated
-         * @param health
-         *                health to be updated
-         * @param energy
-         *                energy to be updated
-         * @return player sequence with updated information
-         * @ensures player = #player + newHealth and newEnergy
-         *
-         */
-
-        Sequence<Integer> updatePlayer(Sequence<Integer> player, int health,
-                        int energy);
+        void updateEnemy(int healthMax, int energyMax);
 
         /**
          * When enemy health is depleted, gives player experience, tells them
          * the number of rounds it took, as well of which battle the player is
          * on.
          *
+         * @param xpValue
+         *                the player xp to be added to and returned
          * @param battleNumber
          *                the i value of the roundPlay for loop that gives the
          *                current round value
@@ -121,45 +94,48 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
          * @ensures totalPlayerExperience += experience
          *
          */
-        int battleOver(int battleNumber, int roundsTaken, SimpleWriter out);
+        int battleOver(int xpValue, int battleNumber, int roundsTaken,
+                        SimpleWriter out);
 
         /**
-         * Similar to attackOrDefend, but from the perspective of an AI enemy.
-         * Method will decide whether or not to attack or defend based on the
-         * level of enemy energy. The decision to save for a strong attack will
-         * be random.
+         * Checks if player and enemy are alive.
          *
-         * @param enemy
-         *                checks enemy health
-         * @param player
-         *                checks player health
          * @return true if both have their health, and false if one or both is
          *         dead
          * @ensures playerHealth && enemyHealth > 0 == true and false otherwise
          *
          */
-        boolean checkAlive(Sequence<Integer> player, Sequence<Integer> enemy);
+        boolean checkAlive();
 
         /**
-         * after a sequence is created, sets the values for the max health and
-         * energy that the user gives themselves.
+         * ability for game to change player health and energy values during the
+         * round.
          *
-         * @param player
-         *                the sequence to be set up
-         * @param healthMax
-         *                the user-given health to set as max for the player
-         * @param energyMax
-         *                user-given energy to set as max for the player
-         * @return player sequence with updated information
-         * @ensures player = #player + healthMax and energyMax
+         * @param healthChange
+         *                the added or reduced health to change the player
+         * @param energyChange
+         *                the added or reduced energy to change the player
+         * @ensures player = #player + healthChange and energyChange
          *
          */
-        Sequence<Integer> createCharacter(Sequence<Integer> player,
-                        int healthMax, int energyMax);
+        void editEnemy(int healthChange, int energyChange);
+
+        /**
+         * ability for game to change player health and energy values during the
+         * round.
+         *
+         * @param healthChange
+         *                the added or reduced health to change the player
+         * @param energyChange
+         *                the added or reduced energy to change the player
+         * @ensures player = #player + healthChange and energyChange
+         *
+         */
+        void editCharacter(int healthChange, int energyChange);
 
         /**
          * When reaching end message, displays information about the game, and
-         * asks if the player wants to play again
+         * asks if the player wants to play again.
          *
          * @param roundsPlayed
          *                information on how long the player survived
@@ -205,7 +181,7 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
 
         /**
          * Returns whether the player's energy is high enough to use a special
-         * attack
+         * attack.
          *
          * @return true if energy > specialAttackThreshhold
          * @ensures canUseSpecialAttack = (playerEnergy >

@@ -1,4 +1,3 @@
-import components.sequence.Sequence;
 import components.simplereader.SimpleReader;
 import components.simplewriter.SimpleWriter;
 
@@ -16,8 +15,8 @@ public interface ASCIIBattle extends ASCIIBattleKernel {
          * @param totalDamageDealt
          *                information on how much damage the player dealt while
          *                alive
-         * @param player
-         *                player that may be revived
+         * @param playerName
+         *                user given player name
          * @param in
          *                take in user information
          * @param out
@@ -25,7 +24,7 @@ public interface ASCIIBattle extends ASCIIBattleKernel {
          * @ensures out = [information on player data, option to play again]
          *
          */
-        void playerDead(Sequence<Integer> player, int roundsPlayed,
+        void playerDead(String playerName, int roundsPlayed,
                         int totalDamageDealt, SimpleReader in,
                         SimpleWriter out);
 
@@ -35,10 +34,10 @@ public interface ASCIIBattle extends ASCIIBattleKernel {
          * decision. Then runs the enemy attack decision, then gives player
          * experience if the enemy has run out of health.
          *
-         * @param player
-         *                player information so that the game can function
+         * @param playerName
+         *                user given player name
          * @param numBattles
-         *                the numbeor f player-given rounds the game will run
+         *                the number f player-given rounds the game will run
          * @param in
          *                take in user information
          * @param out
@@ -46,7 +45,7 @@ public interface ASCIIBattle extends ASCIIBattleKernel {
          * @ensures player = [dead] || player = [won battles]
          *
          */
-        void roundPlay(Sequence<Integer> player, int numBattles,
-                        SimpleReader in, SimpleWriter out);
+        void roundPlay(String playerName, int numBattles, SimpleReader in,
+                        SimpleWriter out);
 
 }
