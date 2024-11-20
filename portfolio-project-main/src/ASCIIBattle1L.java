@@ -83,10 +83,12 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         public ASCIIBattle1L() {
                 final int initialPlayerNum = 10;
                 final int initialEnemyNum = 5;
+                final int initialPotions = 0;
 
                 this.createNewRep();
                 this.player.add(0, initialPlayerNum);
                 this.player.add(1, initialPlayerNum);
+                this.player.add(2, initialPotions);
                 this.enemy.add(0, initialPlayerNum);
                 this.player.add(1, initialEnemyNum);
         }
