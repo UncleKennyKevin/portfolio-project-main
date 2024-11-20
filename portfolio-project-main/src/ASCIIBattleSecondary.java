@@ -20,7 +20,12 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
         result.append("PlayerEnergy- ").append(this.currentEnergy())
                 .append(", ");
         result.append("CanUseSpecialAttack- ")
-                .append(this.canUseSpecialAttack());
+                .append(this.canUseSpecialAttack()).append(", ");
+        result.append("# Potions").append(this.currentPotions());
+        result.append(")  Enemy Stats(");
+        result.append("EnemyHealth").append(this.currentEnemyHealth())
+                .append(", ");
+        result.append("EnemyEnergy").append(this.currentEnemyEnergy());
 
         return result.append(")").toString();
 
@@ -44,8 +49,8 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
         if ((this.currentHealth() != example.currentHealth())
                 || (this.currentEnergy() != example.currentEnergy())
                 || (this.currentEnemyHealth() != example.currentEnemyHealth())
-                || (this.currentEnemyEnergy() != example
-                        .currentEnemyEnergy())) {
+                || (this.currentEnemyEnergy() != example.currentEnemyEnergy())
+                || (this.currentPotions() != example.currentPotions())) {
             returnVal = false;
         }
 

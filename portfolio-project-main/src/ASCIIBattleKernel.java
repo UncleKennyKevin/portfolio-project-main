@@ -128,10 +128,13 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
          *                the added or reduced health to change the player
          * @param energyChange
          *                the added or reduced energy to change the player
+         * @param potionsChange
+         *                the added or reduced potions to change the player
          * @ensures player = #player + healthChange and energyChange
          *
          */
-        void editCharacter(int healthChange, int energyChange);
+        void editCharacter(int healthChange, int energyChange,
+                        int potionsChange);
 
         /**
          * When reaching end message, displays information about the game, and
@@ -178,6 +181,14 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
          * @ensures currentEnergy = player.energy
          */
         int currentEnergy();
+
+        /**
+         * Returns the players current number of potions.
+         *
+         * @return the players current potion count
+         * @ensures currentPotions = player.potions
+         */
+        int currentPotions();
 
         /**
          * Returns whether the player's energy is high enough to use a special
