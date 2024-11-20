@@ -51,6 +51,13 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
          * value to hopefully reset energy value after using a special attack.
          */
         private final int specialAttackReset = 10000;
+
+        /**
+         * health returned to player when using a health potion, negative to
+         * show health coming back.
+         */
+        private final int healthPotion = -35;
+
         /**
          * user-controlled player representation.
          */
@@ -97,7 +104,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
          *                user given enemy energy value
          */
         public ASCIIBattle1L(int playerHealth, int playerEnergy,
-                        int enemyHealth, int enemyEnergy) {
+                        int enemyHealth, int enemyEnergy, int startingPotions) {
                 this.createNewRep();
                 assert playerHealth > 0 : "Violation of: player health > 0";
                 assert playerEnergy > 0 : "Violation of: player energy > 0";
@@ -106,6 +113,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
 
                 this.player.add(0, playerHealth);
                 this.player.add(1, playerEnergy);
+                this.player.add(2, startingPotions);
                 this.enemy.add(0, enemyHealth);
                 this.player.add(1, enemyEnergy);
         }
@@ -209,6 +217,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 out.println(" 'A' = Attack");
                 out.println(" 'B' = Block");
                 out.println(" 'S' = Special Attack ");
+                out.println(" 'P' = Use a Potion ");
                 out.println("Your current stats: ");
                 out.println("Health: " + this.currentHealth());
                 out.println("Energy: " + this.currentEnergy());
@@ -226,7 +235,9 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                         userChoice = in.nextLine();
                         if (userChoice.equals("S") || (userChoice.equals("B"))
                                         || ((userChoice.equals("S") && this
-                                                        .currentEnergy() >= this.specialAttackThreshold))) {
+                                                        .currentEnergy() >= this.specialAttackThreshold))
+                                        || (userChoice.equals("P") && (this
+                                                        .currentPotions() >= 1))) {
                                 correctOption = true;
                         } else {
                                 out.print("Oops, you've made a mistake, try again!");
@@ -254,6 +265,9 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                         }
                 } else if (userChoice.equals("B")) {
                         playerChoice = "Block";
+                } else if (userChoice.equals("P")) {
+                        this.editCharacter(this.healthPotion, 0, 1);
+                        out.println("You used potion and gained 35 Health!");
                 }
 
                 in.close();
@@ -373,7 +387,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                         }
                 }
 
-                this.editCharacter(enemyDamage, playerEnergyRemoval);
+                this.editCharacter(enemyDamage, playerEnergyRemoval, 0);
                 this.editEnemy(playerDamage, enemyEnergyRemoval);
 
                 out.println("Stats after this round: ");
@@ -405,10 +419,17 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                         int roundsTaken, SimpleWriter out) {
 
                 final int xpMax = 250;
+                final int healthPotionChance = 4;
 
-                Random xpGained = new Random();
-                int newXp = xpGained.nextInt(xpMax);
+                Random battleOverRandom = new Random();
+                int newXp = battleOverRandom.nextInt(xpMax);
+                int chanceOfPotion = battleOverRandom
+                                .nextInt(healthPotionChance);
 
+                if (chanceOfPotion == 4) {
+                        this.editCharacter(0, 0, -1);
+                        out.println("Hooray! You found a potion in the enemy's pocket!");
+                }
                 int finalXp = xpValue + newXp;
 
                 out.println("BATTLE NUMBER " + battleNumber
@@ -427,19 +448,25 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         }
 
         @Override
-        public final void editCharacter(int healthChange, int energyChange) {
+        public final void editCharacter(int healthChange, int energyChange,
+                        int potionsChange) {
                 int originalHealth = this.player.entry(0);
                 int originalEnergy = this.player.entry(1);
+                int originalPotions = this.player.entry(2);
+
+                int removalVal = 0;
 
                 int newHealth = originalHealth - healthChange;
                 int newEnergy = originalEnergy - energyChange;
+                int newPotions = originalPotions - potionsChange;
 
                 if (newEnergy < 0) {
                         newEnergy = 0;
                 }
 
-                int changedHealth = this.player.replaceEntry(0, newHealth);
-                int changedEnergy = this.player.replaceEntry(1, newEnergy);
+                removalVal = this.player.replaceEntry(0, newHealth);
+                removalVal = this.player.replaceEntry(1, newEnergy);
+                removalVal = this.player.replaceEntry(2, newPotions);
         }
 
         @Override
@@ -447,6 +474,8 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 int originalHealth = this.enemy.entry(0);
                 int originalEnergy = this.enemy.entry(1);
 
+                int removalVal = 0;
+
                 int newHealth = originalHealth - healthChange;
                 int newEnergy = originalEnergy - energyChange;
 
@@ -454,8 +483,8 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                         newEnergy = 0;
                 }
 
-                int changedHealth = this.enemy.replaceEntry(0, newHealth);
-                int changedEnergy = this.enemy.replaceEntry(1, newEnergy);
+                removalVal = this.enemy.replaceEntry(0, newHealth);
+                removalVal = this.enemy.replaceEntry(1, newEnergy);
         }
 
         @Override
@@ -468,10 +497,10 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 out.println("You survived " + roundsPlayed + " rounds");
                 out.println("Overall, you dealt " + totalDamageDealt
                                 + " points of damage");
-                out.print("Play again? y/n");
+                out.print("Play again? Y/N");
                 String playerResponse = in.nextLine();
 
-                if (playerResponse.equals("y")) {
+                if (playerResponse.equals("Y")) {
                         this.gameStart();
                 } else {
                         out.println("Goodbye!!");
@@ -487,32 +516,30 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
 
                 out.println("WELCOME TO THE SURVIVAL PROJECT!");
                 out.println("Enter the following values:");
-                out.print("Player Name: ");
 
+                out.print("Player Name: ");
                 String playerName = in.nextLine();
 
                 out.print("Player Health:");
-
                 int playerHealth = Integer.parseInt(in.nextLine());
 
                 out.print("Energy of " + playerName + ":      ");
-
                 int playerEnergy = Integer.parseInt(in.nextLine());
 
                 out.print("Initial Enemy Health: ");
-
                 int enemyHealth = Integer.parseInt(in.nextLine());
 
                 out.print("Energy of Initial Enemy: ");
-
                 int enemyEnergy = Integer.parseInt(in.nextLine());
+                out.print("How many starting potions do you want?: ");
 
+                int numPotions = Integer.parseInt(in.nextLine());
                 out.print("How Many Battles Do You Want To Fight? ");
 
                 int battles = Integer.parseInt(in.nextLine());
 
                 new ASCIIBattle1L(playerHealth, playerEnergy, enemyHealth,
-                                enemyEnergy);
+                                enemyEnergy, numPotions);
 
                 this.roundPlay(playerName, battles, in, out);
 
@@ -530,6 +557,11 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         @Override
         public final int currentEnergy() {
                 return this.player.entry(1);
+        }
+
+        @Override
+        public final int currentPotions() {
+                return this.player.entry(2);
         }
 
         @Override
