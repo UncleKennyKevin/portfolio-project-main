@@ -547,4 +547,5 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         public final int currentEnemyEnergy() {
                 return this.enemy.entry(1);
         }
+
 }
