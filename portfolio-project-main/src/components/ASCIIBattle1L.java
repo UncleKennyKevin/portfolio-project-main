@@ -431,17 +431,22 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                         int roundsTaken, SimpleWriter out) {
 
                 final int xpMax = 250;
+                final int energyMax = 50;
                 final int healthPotionChance = 4;
 
                 Random battleOverRandom = new Random();
+
                 int newXp = battleOverRandom.nextInt(xpMax);
+                int newEnergy = battleOverRandom.nextInt(energyMax);
                 int chanceOfPotion = battleOverRandom
                                 .nextInt(healthPotionChance);
 
-                if (chanceOfPotion == 4) {
+                if (chanceOfPotion == this.four) {
                         this.editCharacter(0, 0, -1);
                         out.println("Hooray! You found a potion in the enemy's pocket!");
                 }
+
+                this.editCharacter(0, -newEnergy, 0);
                 int finalXp = xpValue + newXp;
 
                 out.println("BATTLE NUMBER " + battleNumber
@@ -449,6 +454,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 out.println("----------------------");
                 out.println("It took you " + roundsTaken + " rounds to win.");
                 out.println("You earned " + newXp + "XP!!");
+                out.println("You regained " + newEnergy + " points of energy!");
                 out.println("Get ready for the next round!");
 
                 return finalXp;
@@ -525,8 +531,9 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
 
                 SimpleReader in = new SimpleReader1L();
                 SimpleWriter out = new SimpleWriter1L();
-
-                out.println("WELCOME TO THE SURVIVAL PROJECT!");
+                out.println("-----------------------");
+                out.println();
+                out.println("WELCOME TO ASCIIBATTLE!!!!!");
                 out.println("Enter the following values:");
 
                 out.print("Player Name: ");

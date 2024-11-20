@@ -74,11 +74,8 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
         int playerExperience = 0;
         String playerChoice = "";
 
-        final int enemyHealthMax = 10;
-        final int enemyEnergyMax = 5;
-
-        int enemyHealth = enemyHealthMax;
-        int enemyEnergy = enemyEnergyMax;
+        int enemyHealth = this.currentEnemyHealth();
+        int enemyEnergy = this.currentEnemyEnergy();
 
         boolean roundCheck = true;
 
@@ -96,6 +93,8 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
             }
 
             this.updateEnemy(enemyHealth, enemyEnergy);
+            enemyHealth = this.currentEnemyHealth();
+            enemyEnergy = this.currentEnemyEnergy();
 
             playerExperience += this.battleOver(playerExperience, i,
                     roundsTaken, out);
