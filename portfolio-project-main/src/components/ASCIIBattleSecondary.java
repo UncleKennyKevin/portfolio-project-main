@@ -1,3 +1,5 @@
+package components;
+
 import components.simplereader.SimpleReader;
 import components.simplewriter.SimpleWriter;
 
@@ -15,17 +17,17 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder("Stats(");
-        result.append("PlayerHealth-").append(this.currentHealth())
+        result.append("PlayerHealth- ").append(this.currentHealth())
                 .append(", ");
         result.append("PlayerEnergy- ").append(this.currentEnergy())
                 .append(", ");
         result.append("CanUseSpecialAttack- ")
                 .append(this.canUseSpecialAttack()).append(", ");
-        result.append("# Potions").append(this.currentPotions());
+        result.append("Number of Potions- ").append(this.currentPotions());
         result.append(")  Enemy Stats(");
-        result.append("EnemyHealth").append(this.currentEnemyHealth())
+        result.append("EnemyHealth- ").append(this.currentEnemyHealth())
                 .append(", ");
-        result.append("EnemyEnergy").append(this.currentEnemyEnergy());
+        result.append("EnemyEnergy- ").append(this.currentEnemyEnergy());
 
         return result.append(")").toString();
 
@@ -75,10 +77,14 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
         final int enemyHealthMax = 10;
         final int enemyEnergyMax = 5;
 
+        int enemyHealth = enemyHealthMax;
+        int enemyEnergy = enemyEnergyMax;
+
         boolean roundCheck = true;
 
-        for (int i = 0; i < numBattles; i++) {
-            this.updateEnemy(enemyHealthMax, enemyEnergyMax);
+        for (int i = 1; i <= numBattles; i++) {
+
+            roundCheck = true;
 
             while (roundCheck) {
 
@@ -89,8 +95,11 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
                 roundsTaken++;
             }
 
+            this.updateEnemy(enemyHealth, enemyEnergy);
+
             playerExperience += this.battleOver(playerExperience, i,
                     roundsTaken, out);
+
         }
     }
 
@@ -99,9 +108,12 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
     public void playerDead(String playerName, int numBattles,
             int totalDamageDealt, SimpleReader in, SimpleWriter out) {
         //NEEDS MORE WORK
+
+        final int reviveFive = 5;
+
         int chanceToRevive = this.diceRoll(out);
-        if (chanceToRevive > 5) {
-            this.editCharacter(1, 1);
+        if (chanceToRevive > reviveFive) {
+            this.editCharacter(-reviveFive * 2, -reviveFive, 0);
         } else {
 
             this.endMessage(numBattles, totalDamageDealt, in, out);

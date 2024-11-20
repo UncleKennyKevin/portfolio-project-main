@@ -1,3 +1,5 @@
+package components;
+
 import java.util.Random;
 
 import components.sequence.Sequence;
@@ -21,7 +23,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         /**
          * special attack energy value.
          */
-        private final int specialAttackThreshold = 50;
+        private final int specialAttackThreshold = 30;
 
         /**
          * allow the number 3 to not be considered magic in processing attacks
@@ -46,11 +48,6 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
          * and dice rolls.
          */
         private final int six = 6;
-
-        /**
-         * value to hopefully reset energy value after using a special attack.
-         */
-        private final int specialAttackReset = 10000;
 
         /**
          * health returned to player when using a health potion, negative to
@@ -90,7 +87,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 this.player.add(1, initialPlayerNum);
                 this.player.add(2, initialPotions);
                 this.enemy.add(0, initialPlayerNum);
-                this.player.add(1, initialEnemyNum);
+                this.enemy.add(1, initialEnemyNum);
         }
 
         /**
@@ -104,6 +101,8 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
          *                user given enemy health value
          * @param enemyEnergy
          *                user given enemy energy value
+         * @param startingPotions
+         *                user given potions value
          */
         public ASCIIBattle1L(int playerHealth, int playerEnergy,
                         int enemyHealth, int enemyEnergy, int startingPotions) {
@@ -202,7 +201,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 }
 
                 out.println();
-                out.println("You rolled a " + rollResults + "! ");
+                out.println("Rolled a " + rollResults + "! ");
 
                 return rollResults;
         }
@@ -214,7 +213,9 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 String userChoice = "";
                 String playerChoice = "";
 
+                out.println();
                 out.println("It's Your Turn! -------");
+                out.println();
                 out.println("Pick Your Options (Remember caps lock) : ");
                 out.println(" 'A' = Attack");
                 out.println(" 'B' = Block");
@@ -227,7 +228,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 out.println("Enemy Health: " + this.currentEnemyHealth());
                 out.println("Enemy Energy: " + this.currentEnemyEnergy());
                 out.println("----------------------");
-                out.print("Pick an option!!");
+                out.print("Pick an option!!   ");
 
                 boolean correctOption = false;
 
@@ -236,19 +237,20 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
 
                         userChoice = in.nextLine();
                         if (userChoice.equals("S") || (userChoice.equals("B"))
+                                        || (userChoice.equals("A"))
                                         || ((userChoice.equals("S") && this
                                                         .currentEnergy() >= this.specialAttackThreshold))
                                         || (userChoice.equals("P") && (this
                                                         .currentPotions() >= 1))) {
                                 correctOption = true;
                         } else {
-                                out.print("Oops, you've made a mistake, try again!");
+                                out.print("Oops, you've made a mistake, try again!   ");
                         }
                 }
 
                 if (userChoice.equals("S")) {
                         int randomVal = this.diceRoll(out);
-                        if (randomVal >= 3) {
+                        if (randomVal >= this.three) {
                                 out.println("WOW!!! You used Special Attack against the enemy!");
                                 playerChoice = "SpecialAttack";
                         } else {
@@ -272,15 +274,18 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                         out.println("You used potion and gained 35 Health!");
                 }
 
-                in.close();
-                out.close();
+                out.print("Press anything to continue!   ");
+                userChoice = in.nextLine();
+
                 return playerChoice;
         }
 
         @Override
         public final void enemyTurn(String playerName, String playerChoice,
                         SimpleWriter out) {
+                out.println();
                 out.println("Enemy Turn----------");
+                out.println();
 
                 final int attackDamage = 3;
                 final int specialAttackDamage = 8;
@@ -309,20 +314,25 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 //calculate choice
                 if (playChoiceResults == 1) {
                         enemyChoice = "Block";
+                        out.println("Enemy Chose Block!!");
                 } else if ((playChoiceResults >= 2)
                                 && (playChoiceResults <= this.four)) {
                         int randomVal = this.diceRoll(out);
                         if (randomVal >= 2) {
                                 enemyChoice = "Attack";
+                                out.println("Enemy Attacked!");
                         } else {
                                 enemyChoice = "Miss";
+                                out.println("Enemy Missed Attack!");
                         }
                 } else if (playChoiceResults <= this.six) {
                         int randomVal = this.diceRoll(out);
                         if (randomVal >= this.three) {
                                 enemyChoice = "SpecialAttack";
+                                out.println("Enemy Used Special Attack!");
                         } else {
                                 enemyChoice = "Miss";
+                                out.println("Enemy Missed a Special Attack!");
                         }
                 }
 
@@ -341,15 +351,15 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 }
 
                 if (playerChoice.equals("SpecialAttack")) {
-                        playerEnergyRemoval = this.specialAttackReset;
+                        playerEnergyRemoval = this.specialAttackThreshold;
                         if (enemyChoice.equals("Block")) {
-                                out.println("Enemy blocks + " + playerName
+                                out.println("Enemy blocks " + playerName
                                                 + "'s super attack!");
                                 playerDamage = (specialAttackDamage / 2);
                                 out.println("Enemy takes " + playerDamage
                                                 + " points of damage!");
                         } else {
-                                out.println("Enemy is hit by + " + playerName
+                                out.println("Enemy is hit by " + playerName
                                                 + "'s super attack!");
                                 playerDamage = specialAttackDamage;
                                 out.println("Enemy takes " + playerDamage
@@ -373,7 +383,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 }
 
                 if (enemyChoice.equals("SpecialAttack")) {
-                        enemyEnergyRemoval = this.specialAttackReset;
+                        enemyEnergyRemoval = this.specialAttackThreshold;
                         if (playerChoice.equals("Block")) {
                                 out.println(playerName
                                                 + " blocks super attack!");
@@ -392,10 +402,10 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 this.editCharacter(enemyDamage, playerEnergyRemoval, 0);
                 this.editEnemy(playerDamage, enemyEnergyRemoval);
 
-                out.println("Stats after this round: ");
-                out.println(this.toString());
+                out.println("Round complete. ");
 
-                out.close();
+                out.println();
+
         }
 
         @Override
@@ -438,7 +448,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                                 + " FINISHED!!!!!!!!");
                 out.println("----------------------");
                 out.println("It took you " + roundsTaken + " rounds to win.");
-                out.println("You earned " + xpValue + "XP!!");
+                out.println("You earned " + newXp + "XP!!");
                 out.println("Get ready for the next round!");
 
                 return finalXp;
@@ -446,7 +456,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
 
         @Override
         public final boolean checkAlive() {
-                return this.enemy.entry(0) > 0 || this.player.entry(0) > 0;
+                return this.enemy.entry(0) > 0 && this.player.entry(0) > 0;
         }
 
         @Override
@@ -522,10 +532,10 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 out.print("Player Name: ");
                 String playerName = in.nextLine();
 
-                out.print("Player Health:");
+                out.print("Player Health: ");
                 int playerHealth = Integer.parseInt(in.nextLine());
 
-                out.print("Energy of " + playerName + ":      ");
+                out.print("Energy of " + playerName + ": ");
                 int playerEnergy = Integer.parseInt(in.nextLine());
 
                 out.print("Initial Enemy Health: ");
@@ -540,8 +550,8 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
 
                 int battles = Integer.parseInt(in.nextLine());
 
-                new ASCIIBattle1L(playerHealth, playerEnergy, enemyHealth,
-                                enemyEnergy, numPotions);
+                this.editCharacter(-playerHealth, -playerEnergy, -numPotions);
+                this.editEnemy(-enemyHealth, -enemyEnergy);
 
                 this.roundPlay(playerName, battles, in, out);
 

@@ -1,3 +1,5 @@
+package components;
+
 import components.simplereader.SimpleReader;
 import components.simplewriter.SimpleWriter;
 
