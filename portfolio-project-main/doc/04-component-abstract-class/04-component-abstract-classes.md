@@ -172,7 +172,7 @@ the following form: YYYY.0M.0D.
 
 ### Updated
 
-- Changed design to include ...
+- Changed design to include ... Secondary standard and non-kernel method implementation
 
 ```
 

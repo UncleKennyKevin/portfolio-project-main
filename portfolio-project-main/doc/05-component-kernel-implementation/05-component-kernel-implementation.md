@@ -1,8 +1,8 @@
 # Portfolio Part 5: Kernel Implementation
 
-- **Name**: <!-- TODO: fill with first and last name (e.g., Brutus Buckeye) and delete this comment -->
-- **Dot Number**: <!-- TODO: fill with OSU dot number (e.g., buckeye.17) and delete this comment -->
-- **Due Date**: <!-- TODO: fill out with due date and time (e.g., 10/17 @ 3:10 PM EST) and delete this comment -->
+- **Name**: Kevin Roback
+- **Dot Number**: roback.12
+- **Due Date**: 11/15 -->
 
 ## Assignment Overview
 
@@ -112,7 +112,12 @@ do good work.
 > discuss how that representation will be restricted (i.e., by convention)
 > and interpreted (i.e., by correspondence).
 
-<!-- TODO: select a representation and explain why -->
+I have made the player and enemy representations to be sequences in order to make use
+of its ease of access to health and energy values and ability to replace values quickly.
+I could instead have used a non-OSU component, but with the time I'll need to spend balancing the game
+itself, I feel like a simple representation that I have experience with in class allows me to be more
+flexible as of right now until I'm in a position with more time to make the component more applicable
+outside of OSU.
 
 > To start making your kernel implementation, make a branch off of main in your
 > new repo called something like `kernel-implementation`. There are many ways to
@@ -174,11 +179,13 @@ the following form: YYYY.0M.0D.
 
 ### Added
 
-- Designed kernel implementation for <!-- insert name of component here --> component
+- Designed kernel implementation for ASCIIBattle1L component
 
 ### Updated
 
 - Changed design to include ...
+Entire kernel method list. NewRepo, clear, transfer from and constructors as well. There are still things I need to work on, such as the ASCII drawings themselves
+other than the modeled die, but I am happy with the work I have done so far as of today. I also need to include checks to see when the player has died and maybe add a potions system for the player to heal between battles.
 
 ```
 
@@ -244,5 +251,4 @@ better for future students.
 
 <!-- TODO: follow the link to share your feedback then delete this comment -->
 
-[markdown-to-pdf-guide]: https://therenegadecoder.com/blog/how-to-convert-markdown-to-a-pdf-3-quick-solutions/
 [survey]: https://forms.gle/dumXHo6A4Enucdkq9

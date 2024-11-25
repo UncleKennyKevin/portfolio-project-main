@@ -1,4 +1,5 @@
-import components.sequence.Sequence;
+package components;
+
 import components.simplereader.SimpleReader;
 import components.simplewriter.SimpleWriter;
 
@@ -13,21 +14,15 @@ public interface ASCIIBattle extends ASCIIBattleKernel {
          *
          * @param roundsPlayed
          *                information on how long the player survived
-         * @param totalDamageDealt
-         *                information on how much damage the player dealt while
-         *                alive
-         * @param player
-         *                player that may be revived
          * @param in
          *                take in user information
          * @param out
          *                display information to user
+         * @return if player is revived
          * @ensures out = [information on player data, option to play again]
          *
          */
-        void playerDead(Sequence<Integer> player, int roundsPlayed,
-                        int totalDamageDealt, SimpleReader in,
-                        SimpleWriter out);
+        Boolean playerDead(int roundsPlayed, SimpleReader in, SimpleWriter out);
 
         /**
          * Controls the game, contains a nested for loop that goes for as many
@@ -35,10 +30,10 @@ public interface ASCIIBattle extends ASCIIBattleKernel {
          * decision. Then runs the enemy attack decision, then gives player
          * experience if the enemy has run out of health.
          *
-         * @param player
-         *                player information so that the game can function
+         * @param playerName
+         *                user given player name
          * @param numBattles
-         *                the numbeor f player-given rounds the game will run
+         *                the number f player-given rounds the game will run
          * @param in
          *                take in user information
          * @param out
@@ -46,7 +41,7 @@ public interface ASCIIBattle extends ASCIIBattleKernel {
          * @ensures player = [dead] || player = [won battles]
          *
          */
-        void roundPlay(Sequence<Integer> player, int numBattles,
-                        SimpleReader in, SimpleWriter out);
+        void roundPlay(String playerName, int numBattles, SimpleReader in,
+                        SimpleWriter out);
 
 }
