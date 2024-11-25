@@ -116,7 +116,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 this.player.add(1, playerEnergy);
                 this.player.add(2, startingPotions);
                 this.enemy.add(0, enemyHealth);
-                this.player.add(1, enemyEnergy);
+                this.enemy.add(1, enemyEnergy);
         }
 
         /*
@@ -207,6 +207,86 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         }
 
         @Override
+        public final void fightVisuals(String visualChoice, SimpleWriter out) {
+                //display attack
+                if (visualChoice.equals("displayEnemy")) {
+                        out.println("      ,  ,  , , ,");
+                        out.println("     <(__)> | | |");
+                        out.println("     | \\/ | \\_|_/");
+                        out.println("     \\^  ^/   |");
+                        out.println("     /\\--/\\  /|");
+                        out.println("    /  \\/  \\/ |");
+                        out.println("");
+                } else if (visualChoice.equals("roundComplete")) {
+                        out.println("                                   .''.  ");
+                        out.println("       .''.      .        *''*    :_\\/_:     . ");
+                        out.println("      :_\\/_:   _\\(/_  .:.*_\\/_*   : /\\ :  .'.:.'.");
+                        out.println("  .''.: /\\ :   ./)\\   ':'* /\\ * :  '..'.  -=:o:=-");
+                        out.println(" :_\\/_:'.:::.    ' *''*    * '.\\'/.' _\\(/_'.':'.'");
+                        out.println(" : /\\ : :::::     *_\\/_*     -= o =-  /)\\    '  *");
+                        out.println("  '..'  ':::'     * /\\ *     .'/.\\'.   '");
+                        out.println("      *            *..*         :");
+                        out.println("        *");
+                        out.println("");
+                } else if (visualChoice.equals("playerDead")) {
+                        out.println("      ,-=-.       ______     _");
+                        out.println("     /  +  \\     />----->  _| |_");
+                        out.println("     | ~~~ |    // -/- /  |_   _|");
+                        out.println("     |R.I.P|   //  /  /     | |");
+                        out.println("\\vV,,|_____|V,//_____/VvV,v,|_|/,,vhjwv/,");
+                        out.println("");
+                } else if (visualChoice.equals("Attack")) {
+                        out.println("      /| ________________");
+                        out.println("O|===|* >________________>");
+                        out.println("      \\|");
+                        out.println();
+                } else if (visualChoice.equals("SpecialAttack")) {
+                        out.println("                   _/  /");
+                        out.println("                  /  _/");
+                        out.println("                _/  /");
+                        out.println("               / __/");
+                        out.println("             _/ /");
+                        out.println("            /__/");
+                        out.println("           //");
+                        out.println("          /'");
+                        out.println("      /| ________________");
+                        out.println("O|===|* >________________>");
+                        out.println("      \\|");
+                        out.println();
+
+                } else if (visualChoice.equals("Block")) {
+                        out.println("  |`-._/\\_.-`|");
+                        out.println("  |    ||    |");
+                        out.println("  |___o()o___|");
+                        out.println("  |__((<>))__|");
+                        out.println("  \\   o\\/o   /");
+                        out.println("   \\   ||   /");
+                        out.println("    \\  ||  /");
+                        out.println("     '.||.'");
+                        out.println("");
+
+                } else if (visualChoice.equals("Miss")) {
+                        out.println(" ~ - . _ . - ~ ` ~ - . _ . - ~ ` ~ -");
+                        out.println();
+                } else if (visualChoice.equals("Potion")) {
+                        out.println("      _____");
+                        out.println("     `.___,'");
+                        out.println("      (___)");
+                        out.println("      <   >");
+                        out.println("       ) (");
+                        out.println("      /`-.\\");
+                        out.println("     /     \\");
+                        out.println("    / _    _\\");
+                        out.println("   :,' `-.' `:");
+                        out.println("   |         |");
+                        out.println("    \\       /");
+                        out.println("     `.___.' ");
+                        out.println();
+                }
+
+        }
+
+        @Override
         public final String attackOrDefend(String playerName, SimpleReader in,
                         SimpleWriter out) {
 
@@ -236,12 +316,16 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 while (!correctOption) {
 
                         userChoice = in.nextLine();
-                        if (userChoice.equals("S") || (userChoice.equals("B"))
+
+                        boolean energyCheck = (this
+                                        .currentEnergy() >= this.specialAttackThreshold
+                                        && userChoice.equals("S"));
+
+                        if ((energyCheck) || (userChoice.equals("S")
+                                        || (userChoice.equals("B"))
                                         || (userChoice.equals("A"))
-                                        || ((userChoice.equals("S") && this
-                                                        .currentEnergy() >= this.specialAttackThreshold))
                                         || (userChoice.equals("P") && (this
-                                                        .currentPotions() >= 1))) {
+                                                        .currentPotions() >= 1)))) {
                                 correctOption = true;
                         } else {
                                 out.print("Oops, you've made a mistake, try again!   ");
@@ -269,10 +353,17 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                         }
                 } else if (userChoice.equals("B")) {
                         playerChoice = "Block";
+                        out.println("You blocked with your shield!");
                 } else if (userChoice.equals("P")) {
                         this.editCharacter(this.healthPotion, 0, 1);
                         out.println("You used potion and gained 35 Health!");
+                        playerChoice = "Potion";
+                } else {
+                        out.println("ERROR");
                 }
+
+                //ASCII ART
+                this.fightVisuals(playerChoice, out);
 
                 out.print("Press anything to continue!   ");
                 userChoice = in.nextLine();
@@ -286,6 +377,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 out.println();
                 out.println("Enemy Turn----------");
                 out.println();
+                this.fightVisuals("displayEnemy", out);
 
                 final int attackDamage = 3;
                 final int specialAttackDamage = 8;
@@ -298,11 +390,12 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
 
                 String enemyChoice = "";
 
-                int energy = this.enemy.entry(1);
                 int specialAttackOption = 0;
 
-                if (energy >= this.specialAttackThreshold) {
+                if (this.currentEnemyEnergy() >= this.specialAttackThreshold) {
                         specialAttackOption = 2;
+                } else {
+                        specialAttackOption = 0;
                 }
 
                 final int options = 4;
@@ -429,7 +522,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         @Override
         public final int battleOver(int xpValue, int battleNumber,
                         int roundsTaken, SimpleWriter out) {
-
+                this.fightVisuals("roundComplete", out);
                 final int xpMax = 250;
                 final int energyMax = 50;
                 final int healthPotionChance = 4;
@@ -458,11 +551,6 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 out.println("Get ready for the next round!");
 
                 return finalXp;
-        }
-
-        @Override
-        public final boolean checkAlive() {
-                return this.enemy.entry(0) > 0 && this.player.entry(0) > 0;
         }
 
         @Override
@@ -506,15 +594,13 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         }
 
         @Override
-        public final void endMessage(int roundsPlayed, int totalDamageDealt,
-                        SimpleReader in, SimpleWriter out) {
+        public final void endMessage(int roundsPlayed, SimpleReader in,
+                        SimpleWriter out) {
 
                 //THIS ONE NEEDS MORE WORK
-
+                this.fightVisuals("playerDead", out);
                 out.println("GAME OVER");
                 out.println("You survived " + roundsPlayed + " rounds");
-                out.println("Overall, you dealt " + totalDamageDealt
-                                + " points of damage");
                 out.print("Play again? Y/N");
                 String playerResponse = in.nextLine();
 
@@ -599,4 +685,31 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 return this.enemy.entry(1);
         }
 
+        @Override
+        public final boolean checkEnemyAlive() {
+                return this.enemy.entry(0) > 0;
+        }
+
+        @Override
+        public final boolean checkPlayerAlive(int numRounds, SimpleReader in,
+                        SimpleWriter out) {
+                boolean returnVal = this.player.entry(0) > 0;
+
+                boolean revived = false;
+
+                if (!returnVal) {
+                        out.println("You have lost your health, you now have the"
+                                        + "chance to be revived!");
+
+                        out.print("Press anything to continue: ");
+                        in.nextLine();
+
+                        revived = this.playerDead(numRounds, in, out);
+                        if (revived) {
+                                out.println("You have been revived!!");
+                        }
+                }
+
+                return returnVal;
+        }
 }

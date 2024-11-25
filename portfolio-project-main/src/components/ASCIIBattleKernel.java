@@ -22,6 +22,19 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
         int diceRoll(SimpleWriter out);
 
         /**
+         * Displays ASCII art made by Joan G. Stark on ASCII Art Archive based
+         * on the input.
+         *
+         * @param visualChoice
+         *                decides what to draw
+         * @param out
+         *                display information to user
+         * @ensures diceRollNumber = [1,6] and out = diceRollNumber
+         *
+         */
+        void fightVisuals(String visualChoice, SimpleWriter out);
+
+        /**
          * Gives player options on their turn: attack, strongAttack, and defend.
          * Then using that info, either rolls to see strength of attack and
          * lands on enemy, or temporarily increases player defense. Attacks
@@ -100,14 +113,29 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
                         SimpleWriter out);
 
         /**
-         * Checks if player and enemy are alive.
+         * Checks if player is alive.
          *
-         * @return true if both have their health, and false if one or both is
-         *         dead
-         * @ensures playerHealth && enemyHealth > 0 == true and false otherwise
+         * @param numRounds
+         *                the number of rounds the player has survived
+         * @param out
+         *                output information to user
+         * @param in
+         *                take in user information
+         * @return true if player has more than 0 health
+         * @ensures playerHealth> 0 == true and false otherwise
          *
          */
-        boolean checkAlive();
+        boolean checkPlayerAlive(int numRounds, SimpleReader in,
+                        SimpleWriter out);
+
+        /**
+         * Checks if enemy is alive.
+         *
+         * @return true if enemy has more than 0 health
+         * @ensures enemyHealth > 0 == true and false otherwise
+         *
+         */
+        boolean checkEnemyAlive();
 
         /**
          * ability for game to change player health and energy values during the
@@ -144,9 +172,6 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
          *
          * @param roundsPlayed
          *                information on how long the player survived
-         * @param totalDamageDealt
-         *                information on how much damage the player dealt while
-         *                alive
          * @param in
          *                take in user information
          * @param out
@@ -154,8 +179,7 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
          * @ensures out = [information on player data, option to play again]
          *
          */
-        void endMessage(int roundsPlayed, int totalDamageDealt, SimpleReader in,
-                        SimpleWriter out);
+        void endMessage(int roundsPlayed, SimpleReader in, SimpleWriter out);
 
         /**
          * Begins the game, collects user input to customize the experience and

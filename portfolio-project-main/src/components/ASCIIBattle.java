@@ -14,21 +14,15 @@ public interface ASCIIBattle extends ASCIIBattleKernel {
          *
          * @param roundsPlayed
          *                information on how long the player survived
-         * @param totalDamageDealt
-         *                information on how much damage the player dealt while
-         *                alive
-         * @param playerName
-         *                user given player name
          * @param in
          *                take in user information
          * @param out
          *                display information to user
+         * @return if player is revived
          * @ensures out = [information on player data, option to play again]
          *
          */
-        void playerDead(String playerName, int roundsPlayed,
-                        int totalDamageDealt, SimpleReader in,
-                        SimpleWriter out);
+        Boolean playerDead(int roundsPlayed, SimpleReader in, SimpleWriter out);
 
         /**
          * Controls the game, contains a nested for loop that goes for as many

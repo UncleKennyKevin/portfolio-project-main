@@ -77,47 +77,53 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
         int enemyHealth = this.currentEnemyHealth();
         int enemyEnergy = this.currentEnemyEnergy();
 
-        boolean roundCheck = true;
-
         for (int i = 1; i <= numBattles; i++) {
 
-            roundCheck = true;
-
-            while (roundCheck) {
+            while (this.checkEnemyAlive()
+                    && this.checkPlayerAlive(i, in, out)) {
 
                 playerChoice = this.attackOrDefend(playerName, in, out);
                 this.enemyTurn(playerName, playerChoice, out);
-                roundCheck = this.checkAlive();
 
                 roundsTaken++;
             }
 
-            this.updateEnemy(enemyHealth, enemyEnergy);
-            enemyHealth = this.currentEnemyHealth();
-            enemyEnergy = this.currentEnemyEnergy();
+            if (!this.checkEnemyAlive()) {
+                this.updateEnemy(enemyHealth, enemyEnergy);
+                enemyHealth = this.currentEnemyHealth();
+                enemyEnergy = this.currentEnemyEnergy();
 
-            playerExperience += this.battleOver(playerExperience, i,
-                    roundsTaken, out);
+                playerExperience += this.battleOver(playerExperience, i,
+                        roundsTaken, out);
+            }
+
+            if (this.currentHealth() <= 0) {
+                i = numBattles + 1;
+            }
 
         }
     }
 
     // CHECKSTYLE: ALLOW THIS METHOD TO BE OVERRIDDEN
     @Override
-    public void playerDead(String playerName, int numBattles,
-            int totalDamageDealt, SimpleReader in, SimpleWriter out) {
-        //NEEDS MORE WORK
+    public Boolean playerDead(int numBattles, SimpleReader in,
+            SimpleWriter out) {
+
+        boolean revived = false;
 
         final int reviveFive = 5;
 
         int chanceToRevive = this.diceRoll(out);
         if (chanceToRevive > reviveFive) {
             this.editCharacter(-reviveFive * 2, -reviveFive, 0);
+            revived = true;
         } else {
 
-            this.endMessage(numBattles, totalDamageDealt, in, out);
+            this.endMessage(numBattles, in, out);
 
         }
+
+        return revived;
 
     }
 
