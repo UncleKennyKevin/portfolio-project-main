@@ -75,19 +75,15 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         }
 
         /**
-         * Constructor for player and enemy with default values.
+         * Constructor for player and enemy with default 0 values.
          */
         public ASCIIBattle1L() {
-                final int initialPlayerNum = 10;
-                final int initialEnemyNum = 5;
-                final int initialPotions = 0;
-
                 this.createNewRep();
-                this.player.add(0, initialPlayerNum);
-                this.player.add(1, initialPlayerNum);
-                this.player.add(2, initialPotions);
-                this.enemy.add(0, initialPlayerNum);
-                this.enemy.add(1, initialEnemyNum);
+                this.player.add(0, 0);
+                this.player.add(1, 0);
+                this.player.add(2, 0);
+                this.enemy.add(0, 0);
+                this.enemy.add(1, 0);
         }
 
         /**
@@ -321,11 +317,10 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                                         .currentEnergy() >= this.specialAttackThreshold
                                         && userChoice.equals("S"));
 
-                        if ((energyCheck) || (userChoice.equals("S")
-                                        || (userChoice.equals("B"))
+                        if ((energyCheck) || (userChoice.equals("B"))
                                         || (userChoice.equals("A"))
                                         || (userChoice.equals("P") && (this
-                                                        .currentPotions() >= 1)))) {
+                                                        .currentPotions() >= 1))) {
                                 correctOption = true;
                         } else {
                                 out.print("Oops, you've made a mistake, try again!   ");
@@ -613,7 +608,9 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         }
 
         @Override
-        public final void gameStart() {
+        public final void gameStart(String gameMode) {
+
+                int battles;
 
                 SimpleReader in = new SimpleReader1L();
                 SimpleWriter out = new SimpleWriter1L();
@@ -625,7 +622,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 out.print("Player Name: ");
                 String playerName = in.nextLine();
 
-                out.print("Player Health: ");
+                out.print("Health of " + playerName + ":");
                 int playerHealth = Integer.parseInt(in.nextLine());
 
                 out.print("Energy of " + playerName + ": ");
@@ -639,9 +636,15 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 out.print("How many starting potions do you want?: ");
 
                 int numPotions = Integer.parseInt(in.nextLine());
+
+                if (gameMode.equals("Endless")) {
+                        battles = Integer.MAX_VALUE;
+
+                } else {
                 out.print("How Many Battles Do You Want To Fight? ");
 
-                int battles = Integer.parseInt(in.nextLine());
+                battles = Integer.parseInt(in.nextLine());
+                }
 
                 this.editCharacter(-playerHealth, -playerEnergy, -numPotions);
                 this.editEnemy(-enemyHealth, -enemyEnergy);
