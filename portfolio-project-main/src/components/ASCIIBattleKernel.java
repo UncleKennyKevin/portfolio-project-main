@@ -184,11 +184,13 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
         /**
          * Begins the game, collects user input to customize the experience and
          * create the player character.
+         * @param gameMode
+         *                Endless mode or normal mode option
          *
          * @ensures player == (user Input) && rounds = (user input)
          *
          */
-        void gameStart();
+        void gameStart(String gameMode);
 
         //info grabber methods
 
