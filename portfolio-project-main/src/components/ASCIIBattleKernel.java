@@ -22,8 +22,7 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
         int diceRoll(SimpleWriter out);
 
         /**
-         * Displays ASCII art made by Joan G. Stark on ASCII Art Archive based
-         * on the input.
+         * Displays ASCII art made on the ASCII Art Archive based on the input.
          *
          * @param visualChoice
          *                decides what to draw
@@ -184,6 +183,7 @@ public interface ASCIIBattleKernel extends Standard<ASCIIBattle> {
         /**
          * Begins the game, collects user input to customize the experience and
          * create the player character.
+         *
          * @param gameMode
          *                Endless mode or normal mode option
          *

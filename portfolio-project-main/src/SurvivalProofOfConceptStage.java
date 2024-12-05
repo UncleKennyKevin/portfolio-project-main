@@ -1,17 +1,19 @@
-
-*
-
-import java.util.Random;
-
-import components.sequence.Sequence;
-import components.simplereader.SimpleReader;
-import components.simplereader.SimpleReader1L;
-import components.simplewriter.SimpleWriter;import*components.simplereader.SimpleReader1L;import*components.simplewriter.SimpleWriter;import*components.simplewriter.SimpleWriter1L;**
-
-public class SurvivalProofOfConceptStage {
-    ** //predict chance when chance depends on material level private static boolean
-    *
-   QueryMaterial(int materialLevel) {
+/*
+ *
+ *
+ * import java.util.Random;
+ *
+ * import components.sequence.Sequence; import
+ * components.simplereader.SimpleReader; import
+ * components.simplereader.SimpleReader1L; import
+ * components.simplewriter.SimpleWriter;import*components.simplereader.
+ * SimpleReader1L;import*components.simplewriter.SimpleWriter;import*components.
+ * simplewriter.SimpleWriter1L;**
+ *
+ * public class SurvivalProofOfConceptStage { //predict chance when chance
+ * depends on material level private static boolean
+ *
+ * QueryMaterial(int materialLevel) {
  *
  * boolean result = true;
  *
@@ -19,10 +21,11 @@ public class SurvivalProofOfConceptStage {
  *
  * if (rollResults > materialLevel) { result = false; }
  *
- * return result; }** //predict chance for when chance does not depend on material level private
-    *
-
-   static boolean QueryGeneral(int likelihood) {
+ * return result; }** //predict chance for when chance does not depend on
+ * material level private
+ *
+ *
+ * static boolean QueryGeneral(int likelihood) {
  *
  * boolean result = true;
  *
@@ -31,10 +34,10 @@ public class SurvivalProofOfConceptStage {
  *
  * if (firstRoll > secondRoll) { result = false; }
  *
- * return result; }** //this method will cycle through the day when the previous part of the day is
-    *over
-
-    private static String nextPhase(String timeOfDay) {
+ * return result; }** //this method will cycle through the day when the previous
+ * part of the day is over
+ *
+ * private static String nextPhase(String timeOfDay) {
  *
  * String nextPhase = null; if (timeOfDay.equals("morning")) { nextPhase =
  * "afternoon"; } else if (timeOfDay.equals("afternoon")) { nextPhase =
@@ -42,10 +45,11 @@ public class SurvivalProofOfConceptStage {
  *
  * return nextPhase;
  *
- * }** //this method will change the stats of the player, although isn't ready yet
-    *
-
-   private void changePlayerStats(int entryNumber, int change, SimpleWriter out)
+ * }** //this method will change the stats of the player, although isn't ready
+ * yet
+ *
+ *
+ * private void changePlayerStats(int entryNumber, int change, SimpleWriter out)
  * {
  *
  * // this.replaceEntry(entryNumber, change); out.println("CurrentStats: ");
@@ -54,8 +58,8 @@ public class SurvivalProofOfConceptStage {
  *
  * //this method builds up a new player with the user given stats private static
  *
-
-   Sequence<Integer> createCharacter(Sequence<Integer> player, int healthMax,
+ *
+ * Sequence<Integer> createCharacter(Sequence<Integer> player, int healthMax,
  * int energyMax, int hungerMax) {
  *
  * player.add(0, healthMax); player.add(1, energyMax); player.add(2, hungerMax);
@@ -66,8 +70,8 @@ public class SurvivalProofOfConceptStage {
  *
  * //will be broken up into seperate methods. Currently just runs morning.
  *
-
-   private static void gameController(Sequence<Integer> player, int days,
+ *
+ * private static void gameController(Sequence<Integer> player, int days,
  * SimpleReader in, SimpleWriter out) {
  *
  * String timeOfDay = "morning";
@@ -103,8 +107,8 @@ public class SurvivalProofOfConceptStage {
  * //character name: John //Character health, energy, hunger: 40,20,95
  *
  *
-
-   public static void main(String[] args) {
+ *
+ * public static void main(String[] args) {
  *
  * SimpleReader in = new SimpleReader1L(); SimpleWriter out = new
  * SimpleWriter1L();
@@ -137,5 +141,5 @@ public class SurvivalProofOfConceptStage {
  *
  * gameController(player, days, in, out);
  *
- * in.close(); out.close(); }
-}
+ * in.close(); out.close(); } }
+ */

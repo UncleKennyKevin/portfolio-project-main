@@ -129,6 +129,12 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         public final void clear() {
                 this.player.clear();
                 this.enemy.clear();
+
+                this.player.add(0, 0);
+                this.player.add(1, 0);
+                this.player.add(2, 0);
+                this.enemy.add(0, 0);
+                this.enemy.add(1, 0);
         }
 
         @Override
@@ -139,6 +145,12 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 ASCIIBattle1L localSource = (ASCIIBattle1L) source;
                 this.player.transferFrom(localSource.player);
                 this.enemy.transferFrom(localSource.enemy);
+
+                localSource.player.add(0, 0);
+                localSource.player.add(1, 0);
+                localSource.player.add(2, 0);
+                localSource.enemy.add(0, 0);
+                localSource.enemy.add(1, 0);
         }
 
         @Override
@@ -313,8 +325,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
 
                         userChoice = in.nextLine();
 
-                        boolean energyCheck = (this
-                                        .currentEnergy() >= this.specialAttackThreshold
+                        boolean energyCheck = (this.canUseSpecialAttack()
                                         && userChoice.equals("S"));
 
                         if ((energyCheck) || (userChoice.equals("B"))
@@ -596,11 +607,13 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                 this.fightVisuals("playerDead", out);
                 out.println("GAME OVER");
                 out.println("You survived " + roundsPlayed + " rounds");
-                out.print("Play again? Y/N");
+                out.print("Play again? Y / E(Endless Mode) / N");
                 String playerResponse = in.nextLine();
 
                 if (playerResponse.equals("Y")) {
-                        this.gameStart();
+                        this.gameStart("Normal");
+                } else if (playerResponse.equals("E")) {
+                        this.gameStart("Endless");
                 } else {
                         out.println("Goodbye!!");
                 }
@@ -641,9 +654,9 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
                         battles = Integer.MAX_VALUE;
 
                 } else {
-                out.print("How Many Battles Do You Want To Fight? ");
+                        out.print("How Many Battles Do You Want To Fight? ");
 
-                battles = Integer.parseInt(in.nextLine());
+                        battles = Integer.parseInt(in.nextLine());
                 }
 
                 this.editCharacter(-playerHealth, -playerEnergy, -numPotions);
@@ -675,7 +688,7 @@ public class ASCIIBattle1L extends ASCIIBattleSecondary {
         @Override
         public final boolean canUseSpecialAttack() {
 
-                return this.player.entry(1) > this.specialAttackThreshold;
+                return this.player.entry(1) >= this.specialAttackThreshold;
         }
 
         @Override

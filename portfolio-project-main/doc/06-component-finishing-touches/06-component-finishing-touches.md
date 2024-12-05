@@ -1,8 +1,8 @@
 # Portfolio Part 6: Finishing Touches
 
-- **Name**: <!-- TODO: fill with first and last name (e.g., Brutus Buckeye) and delete this comment -->
-- **Dot Number**: <!-- TODO: fill with OSU dot number (e.g., buckeye.17) and delete this comment -->
-- **Due Date**: <!-- TODO: fill out with due date and time (e.g., 10/17 @ 3:10 PM EST) and delete this comment -->
+- **Name**: Kevin Roback
+- **Dot Number**: Roback.12
+- **Due Date**: 12/4
 
 ## Assignment Overview
 
@@ -49,8 +49,6 @@ Many of these additional techniques are somewhat out of the scope of this
 course, but just knowing about them could set you up for long term success.
 
 ## Assignment Checklist
-
-<!-- TODO: browse the checklist then delete this comment -->
 
 To be sure you have completed everything on this assignment, we have littered
 this document with TODO comments. You can browse all of them in VSCode by
@@ -298,18 +296,32 @@ Take some time to fill them out honestly.
 > complete the portfolio project, how much better (or worse) do you think you
 > understand software development and why?
 
-<!-- TODO: discuss -->
+After completing this project I feel like I have gained a much more solid grasp on the way
+hierarchies work as well as the process implementers have when creating components. To be completely honest,
+before I started this project, I felt like I memorized the hierarchy without genuinely understanding
+how the process worked, or what abstract classes accomplished or the difference between kernel and secondary methods
+other than that they were more complicated than kernel. I think this project should be an option for all Software 2 classes.
 
 > Also, did the portfolio project surface any gaps in your own knowledge of
 > software development. If so, what are those gaps and how did you address them?
 
-<!-- TODO: discuss -->
+I think I brought this up in the previous question, but this project helped me adress my
+lack of knowledge on component hierarchies. I addressed them by going through, taking my time on this project,
+and slowly implementing my design ideas with the Java and OSU tools given to me.
 
 > Finally, as a part of completing the portfolio project, to what extent has
 > your perspective of software development changed, if at all? In other words,
 > is software development something you still enjoy? If not, why not?
 
-<!-- TODO: discuss -->
+I definitely enjoy software development, and I think working on this project only cemented that more for me.
+When doing other projects in these 2 courses, I have found myself questioning if this really was for me.
+I personally do not enjoy the way these software classes have been set up, and don't think they inspire
+students to become interested in the field of software. Software 1 felt like a turing test. Thankfully,
+this semester, group projects and a loose schedule on due dates was something that helped me be flexible
+with the material in the course and learn at my own pace with people I enjoyed working with. I wish that was
+the way all other Software 1 and 2 courses were set up. I appreciate this opportunity to build my own thing,
+even if it was rudimentary and did not make for a super enticing or flashy game. I feel like I accomplished something
+with this though, and it helped me gain more experience and knowledge with software development.
 
 > One of the challenges of completing the portfolio project is picking up a lot
 > of skills on your own. Some of these skills are, of course, software skills.
@@ -317,25 +329,37 @@ Take some time to fill them out honestly.
 > this process. Therefore, the first question is what skills did you pick up
 > through this process?
 
-<!-- TODO: discuss -->
+I learned a lot of new things about how Github works and it inspired me to upload my main game, Uncle Kenny, up onto it.
+Now those files are safe from something like my hard drive failing, and I dont think I would have uploaded it if not for
+the skills I learned while starting this project. I also think this project taught me a lesson about scope. I shot for way too
+much on the proof of concept, but upon reflection and discussion with classmates, I learned the importance of scaling back and
+focusing on what was important with my design. As well, working on the project in different parts allowed me to come back to it
+with fresh eyes every time and I came up with new ideas that deepened the game and allowed for a more complete project within
+the scope I had decided on.
 
 > The follow-up question is: could you rephrase these skills you picked up
 > as bullet points that you could put on a resume? Try it below.
 
-<!-- TODO: discuss -->
+- Learned more about designing software components when making an interactive game.
+- Collaborated and discussed with other students to iterate and improve on our designs.
+- Created a small but thorough game using OSU components and guidance of students and staff in a classroom setting.
+- Gained skills in regards to project scope and focussing on key parts of design first instead of flourishes
 
 > Next, how has working on this project affected your career trajectory?
 > In other words, do you now hate the topic you picked? Or, are you even more
 > interested in it? Both outcomes are valuable to your personal development.
 
-<!-- TODO: discuss -->
+I absolutely love the topic I picked, and although I don't think that this project affected my career trajectory,
+I do believe that it enhanced my programming and design skills.
 
 > Finally, consider the skills you've picked up and your current career
 > trajectory. What are some things you could do to continue on your
 > career trajectory? Also, who are some mentors you could contact to help
 > you stay on your path?
 
-<!-- TODO: discuss -->
+I could and most certainly will continue to work on video games, whether full ones or demo projects,
+in order to gain experience and enhance my skillset with programming and design. I have met a few people
+interested in game design through OSU, and can contact them for guidance, as well as my future design professors.
 
 ### Changelog
 
@@ -354,20 +378,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Calendar Versioning](https://calver.org/) of
 the following form: YYYY.0M.0D.
 
-## YYYY.MM.DD
+## 2024 12 4
 
 ### Added
 
-- Designed test suite for <!-- insert name of component here --> component
-- Designed two different use cases for <!-- insert name of component here --> component
+- Designed test suite for ASCIIBATTLE component
+- Designed three different use cases for ASCIIBATTLE component
+- Fixed bugs found by testing ASCIIBATTLE
 
 ### Updated
 
-- Changed design to include ...
+- Changed design to include ... Test cases, as well as Endless and Normal playthrough
+use cases, and a case without using the game start method.
 
 ```
 
-Here `YYYY.MM.DD` would be the date of your submission, such as 2024.04.21.
+Here 2024 12 4 would be the date of your submission, such as 2024.04.21.
 
 You may notice that things are nicely linked in the root CHANGELOG. If you'd
 like to accomplish that, you will need to make GitHub releases after each pull
@@ -429,5 +455,4 @@ better for future students.
 
 <!-- TODO: follow the link to share your feedback then delete this comment -->
 
-[markdown-to-pdf-guide]: https://therenegadecoder.com/blog/how-to-convert-markdown-to-a-pdf-3-quick-solutions/
 [survey]: https://forms.gle/dumXHo6A4Enucdkq9
