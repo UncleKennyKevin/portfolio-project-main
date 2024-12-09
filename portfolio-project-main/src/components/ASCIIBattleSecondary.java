@@ -24,7 +24,7 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
         result.append("CanUseSpecialAttack- ")
                 .append(this.canUseSpecialAttack()).append(", ");
         result.append("Number of Potions- ").append(this.currentPotions());
-        result.append(")  Enemy Stats(");
+        result.append(") Enemy Stats(");
         result.append("EnemyHealth- ").append(this.currentEnemyHealth())
                 .append(", ");
         result.append("EnemyEnergy- ").append(this.currentEnemyEnergy());
@@ -111,18 +111,21 @@ public abstract class ASCIIBattleSecondary implements ASCIIBattle {
 
         boolean revived = false;
 
-        final int reviveFive = 5;
+        if (this.currentHealth() <= 0) {
 
-        int chanceToRevive = this.diceRoll(out);
-        if (chanceToRevive > reviveFive) {
-            this.editCharacter(-reviveFive * 2, -reviveFive, 0);
-            revived = true;
-        } else {
+            final int reviveFive = 5;
 
-            this.endMessage(numBattles, in, out);
+            int chanceToRevive = this.diceRoll(out);
 
+            if (chanceToRevive > reviveFive) {
+                this.editCharacter(-reviveFive * 2, -reviveFive, 0);
+                revived = true;
+            } else {
+
+                this.endMessage(numBattles, in, out);
+
+            }
         }
-
         return revived;
 
     }
